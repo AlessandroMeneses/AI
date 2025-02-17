@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carnaval de Barranquilla</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Animación para los enlaces del menú */
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #f6e05e; /* Color amarillo */
+      left: 0;
+      bottom: -5px;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .nav-link:hover {
+      color: #f6e05e; /* Color amarillo */
+    }
+
+    /* Animación de rotación para la imagen del reproductor */
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .reproductor img {
+      border-radius: 50%; /* Asegura que la imagen sea circular */
+      transition: transform 0.3s ease;
+    }
+    .reproductor.spin img {
+      animation: spin 4s linear infinite; /* Gira más lento (4s) */
+    }
+
+    /* Header fijo */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Ajuste para que el contenido no quede oculto detrás del header */
+    body {
+      padding-top: 80px; /* Altura del header */
+    }
+
+    /* Eliminar espacio en blanco entre el header y la imagen hero */
+    #inicio {
+      margin-top: -80px; /* Compensa el padding del body */
+    }
+
+    /* Mejorar calidad de la imagen hero */
+    #inicio {
+      background-image: url('img/hero.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Efecto de parallax */
+    }
+
+    /* Reproductor de música en el costado izquierdo */
+    .reproductor {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      z-index: 1000;
+    }
+    .reproductor img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .controles button {
+      background: none;
+      border: none;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+      margin: 0 5px;
+    }
+    .controles button:hover {
+      color: #e74c3c;
+    }
+
+    /* Estilos para la sección de video */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      background: #000;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Encabezado Fijo -->
+  <header class="bg-gradient-to-r from-blue-900 to-blue-700 shadow-lg border-b-4 border-yellow-400">
+  <div class="container mx-auto flex justify-between items-center px-4 py-3">
+    <div class="logo">
+      <img src="img/logo.png" alt="Logo Carnaval de Barranquilla" class="h-12">
+    </div>
+    <nav class="hidden md:block"> <!-- Oculto en móvil, visible en desktop -->
+      <ul class="flex space-x-6">
+        <li><a href="#inicio" class="nav-link text-white text-lg font-semibold">Inicio</a></li>
+        <li><a href="#cultura" class="nav-link text-white text-lg font-semibold">Cultura</a></li>
+        <li><a href="#galeria" class="nav-link text-white text-lg font-semibold">Galería</a></li>
+        <li><a href="#musica" class="nav-link text-white text-lg font-semibold">Música</a></li>
+        <li><a href="#video" class="nav-link text-white text-lg font-semibold">Video</a></li>
+      </ul>
+    </nav>
+    <!-- Botón del menú móvil -->
+    <button id="menu-toggle" class="md:hidden text-white ml-auto">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Menú móvil -->
+  <div id="mobile-menu" class="hidden fixed top-[80px] left-0 right-0 bg-blue-900 md:hidden">
+    <ul class="py-4 px-6 space-y-4">
+      <li><a href="#inicio" class="block text-white text-lg font-semibold hover:text-yellow-400">Inicio</a></li>
+      <li><a href="#cultura" class="block text-white text-lg font-semibold hover:text-yellow-400">Cultura</a></li>
+      <li><a href="#galeria" class="block text-white text-lg font-semibold hover:text-yellow-400">Galería</a></li>
+      <li><a href="#musica" class="block text-white text-lg font-semibold hover:text-yellow-400">Música</a></li>
+      <li><a href="#video" class="block text-white text-lg font-semibold hover:text-yellow-400">Video</a></li>
+    </ul>
+  </div>
+</header>
+
+  <!-- Reproductor de Música en el Costado Izquierdo -->
+  <div class="reproductor">
+    <img src="img/logo.png" alt="Imagen del Reproductor">
+    <audio id="audio">
+      <source src="sound/Ritmo del Carnaval.mp3" type="audio/mpeg">
+      Tu navegador no soporta la reproducción de audio.
+    </audio>
+    <div class="controles">
+      <button id="play"><i class="fas fa-play"></i></button>
+      <button id="pause"><i class="fas fa-pause"></i></button>
+      <button id="stop"><i class="fas fa-stop"></i></button>
+    </div>
+  </div>
+
+  <!-- Sección de Bienvenida -->
+  <section id="inicio" class="h-screen flex items-center justify-center">
+    <div class="text-center bg-black bg-opacity-50 p-8 rounded-lg">
+      <h1 class="text-5xl font-bold text-yellow-400 mb-4">¡Bienvenidos al Carnaval de Barranquilla!</h1>
+      <p class="text-xl text-white">La fiesta más alegre y colorida de Colombia.</p>
+    </div>
+  </section>
+
+  <!-- Sección de Cultura -->
+  <section id="cultura" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-blue-900 mb-8">La Cultura del Carnaval</h2>
+      <p class="text-center text-gray-700 max-w-2xl mx-auto mb-12">
+        El Carnaval de Barranquilla es una de las festividades más importantes de Colombia, reconocido por la UNESCO como Obra Maestra del Patrimonio Oral e Inmaterial de la Humanidad. Es una celebración llena de música, danza, disfraces y tradiciones que reflejan la diversidad cultural de la región Caribe.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-yellow-100 p-6 rounded-lg shadow-lg text-center">
+          <i class="fas fa-music text-4xl text-blue-900 mb-4"></i>
+          <h3 class="text-2xl font-bold text-blue-900 mb-2">Música</h3>
+          <p class="text-gray-700">Ritmos como la cumbia, el mapalé y la champeta llenan de alegría las calles.</p>
+        </div>
+        <div class="bg-yellow-100 p-6 rounded-lg shadow-lg text-center">
+          <i class="fas fa-mask text-4xl text-blue-900 mb-4"></i>
+          <h3 class="text-2xl font-bold text-blue-900 mb-2">Disfraces</h3>
+          <p class="text-gray-700">Coloridos trajes que representan personajes tradicionales y creativos.</p>
+        </div>
+        <div class="bg-yellow-100 p-6 rounded-lg shadow-lg text-center">
+          <i class="fas fa-drum text-4xl text-blue-900 mb-4"></i>
+          <h3 class="text-2xl font-bold text-blue-900 mb-2">Comparsas</h3>
+          <p class="text-gray-700">Grupos que bailan al ritmo de la música, mostrando coreografías únicas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Galería -->
+  <section id="galeria" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-blue-900 mb-8">Galería de Imágenes</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen1.webp" alt="Imagen 1" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen2.webp" alt="Imagen 2" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen3.jpg" alt="Imagen 3" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen4.jpg" alt="Imagen 4" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen5.webp" alt="Imagen 5" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img src="img/imagen6.webp" alt="Imagen 6" class="w-full h-64 object-cover transform hover:scale-105 transition-transform">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Video -->
+  <section id="video" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-blue-900 mb-8">Video del Carnaval</h2>
+      <div class="video-container">
+        <iframe
+          src="videos/video.mp4"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pie de Página -->
+  <footer class="bg-blue-900 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <div class="flex justify-center space-x-6 mb-4">
+        <a href="#" class="text-2xl hover:text-yellow-400"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="text-2xl hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-2xl hover:text-yellow-400"><i class="fab fa-youtube"></i></a>
+      </div>
+      <p>&copy; 2023 Carnaval de Barranquilla - Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Control del reproductor de música y animación de la imagen del reproductor
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('play');
+    const pauseBtn = document.getElementById('pause');
+    const stopBtn = document.getElementById('stop');
+    const reproductor = document.querySelector('.reproductor');
+
+    playBtn.addEventListener('click', () => {
+      audio.play();
+      reproductor.classList.add('spin'); // Activa la animación
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      audio.pause();
+      reproductor.classList.remove('spin'); // Detiene la animación
+    });
+
+    stopBtn.addEventListener('click', () => {
+      audio.pause();
+      audio.currentTime = 0;
+      reproductor.classList.remove('spin'); // Detiene la animación
+    });
+
+    // Control del menú hamburguesa
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuLinks = document.querySelectorAll('#mobile-menu a');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Cerrar el menú al hacer clic en un enlace
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Cerrar el menú al hacer clic fuera de él
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
